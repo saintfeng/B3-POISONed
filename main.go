@@ -13,6 +13,9 @@ import(
     "github.com/bytom/consensus/difficulty"
 )
 
+
+
+
 type t_err struct {
     Code            uint64      `json:"code"`
     Message         string      `json:"message"`
@@ -58,16 +61,23 @@ const (
     // poolAddr = "btm.uupool.cn:9330"
     flush = "\r\n\r\n"
     DEBUG = false
+    esHR     = 166 //estimated Hashrate
+)
+
+var (
+    lastNonce  = ^uint64(0)
+    lastHeight = uint64(0)
 )
 
 func main() {
+start:
     conn, err := net.Dial("tcp", poolAddr)
     if err != nil {
         log.Fatalln(err)
     }
     defer conn.Close()
 
-    send_msg := `{"method": "login", "params": {"login": "antminer_1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}`
+    send_msg := `{"method": "login", "params": {"login": "haoyuyu.1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}`
     // send_msg := `{"method": "login", "params": {"login": "bm1qcxg0w7c70tdd46t7dxn204mkyeyudcz063s49e", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}`
     conn.Write([]byte(send_msg))
     conn.Write([]byte(flush))
@@ -83,7 +93,14 @@ func main() {
         mock_input(&resp)
     }
 
-    nonce := mine(resp.Result.Job)
+    if lastHeight != resp.Result.Job.Height {
+        lastNonce = str2ui64Bg(resp.Result.Job.Nonce)-1
+    }
+    lastHeight = resp.Result.Job.Height
+    if !mine(resp.Result.Job) {
+        goto start
+    }
+    nonce := lastNonce
     nonceStr := strconv.FormatUint(nonce, 16)
     nonceStr = strSwitchEndian(fmt.Sprintf("%016s", nonceStr))
     if DEBUG {
@@ -102,6 +119,7 @@ func main() {
     n, _ = conn.Read(buff)
     log.Printf("Received: %s", buff[:n])
     json.Unmarshal([]byte(buff[:n]), &resp)
+    goto start
 }
 
 /*
@@ -135,7 +153,9 @@ func mine(job t_job) uint64 {
         view_parsing(bh, job)
     }
 
-    for i := str2ui64Bg(job.Nonce); i <= maxNonce; i++ {
+    log.Println("Start from nonce:", lastNonce+1)
+    // for i := str2ui64Bg(job.Nonce); i <= maxNonce; i++ {
+    for i := uint64(lastNonce + 1); i <= uint64(lastNonce+consensus.TargetSecondsPerBlock*esHR) && i <= maxNonce; i++ {
         log.Printf("Checking PoW with nonce: 0x%016x = %d\n", i, i)
         bh.Nonce = i
         headerHash := bh.Hash()
@@ -144,18 +164,15 @@ func mine(job t_job) uint64 {
         }
 
         seedHash := testutil.MustDecodeHash(job.Seed)
-        // if difficulty.CheckProofOfWork(&headerHash, &seedHash, difficulty.BigToCompact(big.NewInt(int64(str2ui64Bg(job.Target))))) {
-        // if difficulty.CheckProofOfWork(&headerHash, &seedHash, difficulty.BigToCompact(big.NewInt(int64(str2ui64Li(job.Target))))) {
-        // if difficulty.CheckProofOfWork(&headerHash, &seedHash, str2ui64Bg(job.Target)) {
-        // if difficulty.CheckProofOfWork(&headerHash, &seedHash, str2ui64Li(job.Target)) {
-        // fmt.Println(difficulty.CompactToBig(bh.Bits))
         if difficulty.CheckProofOfWork(&headerHash, &seedHash, bh.Bits) {
             log.Printf("Block mined! Proof hash: 0x%v\n", headerHash.String())
-            break
+            return true
         }
     }
+    log.Println("Stop at nonce:", bh.Nonce)
+    lastNonce = bh.Nonce
 
-    return bh.Nonce
+    return false
 }
 
 func mock_input(presp *t_resp) {
