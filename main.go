@@ -11,7 +11,7 @@ import(
     "github.com/bytom/testutil"
     "github.com/bytom/protocol/bc/types"
     "github.com/bytom/consensus/difficulty"
-    "github.com/bytom/consensus/"
+    "github.com/bytom/consensus"
 )
 
 
@@ -62,7 +62,7 @@ const (
     // poolAddr = "btm.uupool.cn:9330"
     flush = "\r\n\r\n"
     DEBUG = false
-    esHR     = 166 //estimated Hashrate
+    esHR     = 80 //estimated Hashrate
 )
 
 var (
@@ -94,9 +94,10 @@ start:
         mock_input(&resp)
     }
 
-    if lastHeight != resp.Result.Job.Height {
-        lastNonce = str2ui64Bg(resp.Result.Job.Nonce)-1
-    }
+    // if lastHeight != resp.Result.Job.Height {
+    //     lastNonce = str2ui64Bg(resp.Result.Job.Nonce)-1
+    // }
+    lastNonce = str2ui64Bg(resp.Result.Job.Nonce)-1
     lastHeight = resp.Result.Job.Height
     if !mine(resp.Result.Job) {
         goto start
@@ -154,10 +155,11 @@ func mine(job t_job) bool {
         view_parsing(bh, job)
     }
 
-    log.Println("Start from nonce:", lastNonce+1)
+    log.Printf("Mining at height:\t%d\n", bh.Height)
+    log.Printf("Start from nonce:\t0x%016x = %d\n", lastNonce+1, lastNonce+1)
     // for i := str2ui64Bg(job.Nonce); i <= maxNonce; i++ {
     for i := uint64(lastNonce + 1); i <= uint64(lastNonce+consensus.TargetSecondsPerBlock*esHR) && i <= maxNonce; i++ {
-        log.Printf("Checking PoW with nonce: 0x%016x = %d\n", i, i)
+        // log.Printf("Checking PoW with nonce: 0x%016x = %d\n", i, i)
         bh.Nonce = i
         headerHash := bh.Hash()
         if DEBUG {
@@ -170,7 +172,7 @@ func mine(job t_job) bool {
             return true
         }
     }
-    log.Println("Stop at nonce:", bh.Nonce)
+    log.Printf("Stop at nonce:\t0x%016x = %d\n", bh.Nonce, bh.Nonce)
     lastNonce = bh.Nonce
 
     return false

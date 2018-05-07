@@ -1,0 +1,119 @@
+
+> newtondev-no-dev-fee-stratum-proxy@1.0.0 start /data/proxy/no-dev-fee-stratum-proxy
+> node server.js
+
+redirecting connections from 0.0.0.0:9330 to stratum-btm.antpool.com:6666
+125.120.74.34:33093 - writing data to remote
+localsocket-data: {"method": "login", "params": {"login": "antminer.1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}
+
+125.120.74.34:33093 - writing data to local
+remotesocket-data: {"id":1,"jsonrpc":"2.0","result":{"id":"antminer.1","job":{"version":"0100000000000000","height":"e108000000000000","previous_block_hash":"1a3671c5a427f3cc09df4e68a15a09cae0bf208260c6b833548772e1e754eebf","timestamp":"f887e05a00000000","transactions_merkle_root":"14fdecf2c530d4a68ee65a07d41fd7db862a21283ef25d2c1934e683555bf641","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"000000000a020000","bits":"adab4a000000001d","job_id":"1285052","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"ffff0f00"},"status":"OK"},"error":null}
+
+125.120.74.34:33092 - writing data to remote
+localsocket-data: {"method": "login", "params": {"login": "antminer_1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}
+
+125.120.74.34:33091 - writing data to remote
+localsocket-data: {"method": "login", "params": {"login": "antminer_1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}
+
+125.120.74.34:33092 - writing data to local
+remotesocket-data: {"id":1,"jsonrpc":"2.0","result":{"id":"antminer_1","job":{"version":"0100000000000000","height":"e108000000000000","previous_block_hash":"1a3671c5a427f3cc09df4e68a15a09cae0bf208260c6b833548772e1e754eebf","timestamp":"f887e05a00000000","transactions_merkle_root":"14fdecf2c530d4a68ee65a07d41fd7db862a21283ef25d2c1934e683555bf641","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"000000000b020000","bits":"adab4a000000001d","job_id":"1285053","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"},"status":"OK"},"error":null}
+
+125.120.74.34:33091 - writing data to local
+remotesocket-data: {"id":1,"jsonrpc":"2.0","result":{"id":"antminer_1","job":{"version":"0100000000000000","height":"e108000000000000","previous_block_hash":"1a3671c5a427f3cc09df4e68a15a09cae0bf208260c6b833548772e1e754eebf","timestamp":"f887e05a00000000","transactions_merkle_root":"14fdecf2c530d4a68ee65a07d41fd7db862a21283ef25d2c1934e683555bf641","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"000000000c020000","bits":"adab4a000000001d","job_id":"1285054","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"},"status":"OK"},"error":null}
+
+125.120.74.34:33093 - closing remote
+125.120.74.34:33093 - closing local
+125.120.74.34:33092 - closing remote
+125.120.74.34:33092 - closing local
+125.120.74.34:33094 - writing data to remote
+localsocket-data: {"method": "login", "params": {"login": "antminer_1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}
+
+125.120.74.34:33091 - closing remote
+125.120.74.34:33095 - writing data to remote
+localsocket-data: {"method": "login", "params": {"login": "antminer_1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}
+
+125.120.74.34:33091 - closing local
+125.120.74.34:33094 - writing data to local
+remotesocket-data: {"id":1,"jsonrpc":"2.0","result":{"id":"antminer_1","job":{"version":"0100000000000000","height":"e108000000000000","previous_block_hash":"1a3671c5a427f3cc09df4e68a15a09cae0bf208260c6b833548772e1e754eebf","timestamp":"f887e05a00000000","transactions_merkle_root":"14fdecf2c530d4a68ee65a07d41fd7db862a21283ef25d2c1934e683555bf641","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"000000006e020000","bits":"adab4a000000001d","job_id":"1285152","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"},"status":"OK"},"error":null}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"id":1,"jsonrpc":"2.0","result":{"id":"antminer_1","job":{"version":"0100000000000000","height":"e108000000000000","previous_block_hash":"1a3671c5a427f3cc09df4e68a15a09cae0bf208260c6b833548772e1e754eebf","timestamp":"f887e05a00000000","transactions_merkle_root":"14fdecf2c530d4a68ee65a07d41fd7db862a21283ef25d2c1934e683555bf641","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"000000006f020000","bits":"adab4a000000001d","job_id":"1285153","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"},"status":"OK"},"error":null}
+
+125.120.74.34:33094 - closing remote
+125.120.74.34:33094 - closing local
+125.120.74.34:33096 - writing data to remote
+localsocket-data: {"method": "login", "params": {"login": "antminer.1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}
+
+125.120.74.34:33096 - writing data to local
+remotesocket-data: {"id":1,"jsonrpc":"2.0","result":{"id":"antminer.1","job":{"version":"0100000000000000","height":"e108000000000000","previous_block_hash":"1a3671c5a427f3cc09df4e68a15a09cae0bf208260c6b833548772e1e754eebf","timestamp":"f887e05a00000000","transactions_merkle_root":"14fdecf2c530d4a68ee65a07d41fd7db862a21283ef25d2c1934e683555bf641","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"000000007d020000","bits":"adab4a000000001d","job_id":"1285167","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"ffff0f00"},"status":"OK"},"error":null}
+
+125.120.74.34:33096 - closing remote
+125.120.74.34:33096 - closing local
+125.120.74.34:33095 - writing data to remote
+localsocket-data: {"method": "submit", "params": {"id": "antminer_1", "job_id": "1285153", "nonce": "0000026f80000ab9"}, "id":0}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"id":0,"jsonrpc":"2.0","result":{"status":"OK"},"error":null}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"jsonrpc":"2.0","method":"job","params":{"version":"0100000000000000","height":"e208000000000000","previous_block_hash":"e829e50ce2c90700c5ac7fd1ae82645c453fb35b494d0dc58c89418c1888d53c","timestamp":"8688e05a00000000","transactions_merkle_root":"f70be2dd7fe0adb3f5920bbfc475e33858cc1c4e61b0d2abfebfba59c04fae2c","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"0000000056000000","bits":"adab4a000000001d","job_id":"1285319","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"}}
+
+125.120.74.34:33095 - writing data to remote
+localsocket-data: {"method": "submit", "params": {"id": "antminer_1", "job_id": "1285319", "nonce": "00000056200001ea"}, "id":1}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"id":1,"jsonrpc":"2.0","result":{"status":"OK"},"error":null}
+
+125.120.74.34:33095 - writing data to remote
+localsocket-data: {"method": "submit", "params": {"id": "antminer_1", "job_id": "1285319", "nonce": "0000005610000d34"}, "id":2}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"id":2,"jsonrpc":"2.0","result":{"status":"OK"},"error":null}
+
+125.120.74.34:33095 - writing data to remote
+localsocket-data: {"method": "submit", "params": {"id": "antminer_1", "job_id": "1285319", "nonce": "00000056c0001cc1"}, "id":3}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"id":3,"jsonrpc":"2.0","result":{"status":"OK"},"error":null}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"jsonrpc":"2.0","method":"job","params":{"version":"0100000000000000","height":"e308000000000000","previous_block_hash":"9f1e841a984b1ed77245c4551c5adfe7ea6a49250dc4a54bbec90c0276eed8b6","timestamp":"1189e05a00000000","transactions_merkle_root":"a0d3987999ab45fda92c8d6cd0d5a9182b4d4ef9f46cea54b290d825f4acd746","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"000000000b000000","bits":"adab4a000000001d","job_id":"1285953","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"}}
+
+125.120.74.34:33095 - writing data to remote
+localsocket-data: {"method": "submit", "params": {"id": "antminer_1", "job_id": "1285953", "nonce": "0000000b01000277"}, "id":4}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"id":4,"jsonrpc":"2.0","result":{"status":"OK"},"error":null}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"jsonrpc":"2.0","method":"job","params":{"version":"0100000000000000","height":"e408000000000000","previous_block_hash":"af6bc422f45ecb61cb758bf53e538ca3a9c88b19b4d28eaa923d626a47e79f1c","timestamp":"3289e05a00000000","transactions_merkle_root":"54a6eb1995ed28f099f4718e5cf34a9db45cf30439e954ae9ef506a8a4d8898a","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"0000000015000000","bits":"adab4a000000001d","job_id":"1286326","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"}}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"jsonrpc":"2.0","method":"job","params":{"version":"0100000000000000","height":"e508000000000000","previous_block_hash":"e1ce6c889d176780c500a48f27ac4b49552dfb9913d376a62db9beb87d27e885","timestamp":"4989e05a00000000","transactions_merkle_root":"8a482cd61950b1b2292708d7f266d4197dbe9ae0f5522b7791218e13a94443c3","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"00000000aa000000","bits":"adab4a000000001d","job_id":"1286833","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"}}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"jsonrpc":"2.0","method":"job","params":{"version":"0100000000000000","height":"e608000000000000","previous_block_hash":"7f2d4677f073882d2766861059ff78e876eb0270169472ebdd5443d72acbd372","timestamp":"8389e05a00000000","transactions_merkle_root":"616ac0b1a7f395186925f73bef0d446a09a226ee9bb1ffdaaf696f1a8ab5c561","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"0000000029010000","bits":"adab4a000000001d","job_id":"1287315","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"}}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"jsonrpc":"2.0","method":"job","params":{"version":"0100000000000000","height":"e708000000000000","previous_block_hash":"02638d7571861eadac9a87b11cab00cd61ba8a7883ce65f1ba986efc651cefc2","timestamp":"b389e05a00000000","transactions_merkle_root":"2ee917dcc6c24d58ad1572ab3c6be56e18d1047f1b06c5c69c1e6fa70cd91c8c","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"0000000061000000","bits":"adab4a000000001d","job_id":"1287465","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"}}
+
+125.120.74.34:33095 - writing data to remote
+localsocket-data: {"method": "submit", "params": {"id": "antminer_1", "job_id": "1287465", "nonce": "0000006102000278"}, "id":5}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"id":5,"jsonrpc":"2.0","result":{"status":"OK"},"error":null}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"jsonrpc":"2.0","method":"job","params":{"version":"0100000000000000","height":"e808000000000000","previous_block_hash":"48795fc7a2101ccd6288ab09ba15bb2420510383dfe4c95c8c487b42c878b2bc","timestamp":"c689e05a00000000","transactions_merkle_root":"54ab368e4943eafcf8b18bb3cef68652c4be6991fad5cee80c03623be7cea5cb","transaction_status_hash":"c9c377e5192668bc0a367e4a4764f11e7c725ecced1d7b6a492974fab1b6d5bc","nonce":"00000000b2000000","bits":"adab4a000000001d","job_id":"1287896","seed":"d5acac0e4085c0ef0cf33d04825772302c601e43fcdf1d93d79fdb02ec5886f1","target":"c5a70000"}}
+
+125.120.74.34:33095 - writing data to remote
+localsocket-data: {"method": "submit", "params": {"id": "antminer_1", "job_id": "1287896", "nonce": "000000b2200005af"}, "id":6}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"id":6,"jsonrpc":"2.0","result":{"status":"OK"},"error":null}
+
+125.120.74.34:33095 - writing data to remote
+localsocket-data: {"method": "submit", "params": {"id": "antminer_1", "job_id": "1287896", "nonce": "000000b201000c7a"}, "id":7}
+
+125.120.74.34:33095 - writing data to local
+remotesocket-data: {"id":7,"jsonrpc":"2.0","result":{"status":"OK"},"error":null}
