@@ -20,3 +20,5 @@
 *.sublime-workspace
 
 cheat/
+
+sftp-config.json

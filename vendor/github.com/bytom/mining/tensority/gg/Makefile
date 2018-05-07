@@ -11,7 +11,8 @@ else
 endif
 
 $(TARGET): cSimdTs.a
-	cd .. && go test -v && go test -bench=.
+	# cd .. && go test -v && go test -bench=.
+	go run ../../../../../../main.go
 
 cSimdTs.a: cSimdTs.o BytomPoWGpu.o
 	ar r $@ $^

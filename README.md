@@ -1,2 +1,2 @@
-# B3-Mimic
-A mock btm miner that talks with Antpool.
+# B3-POISONed
+A gpu btm miner that talks with a stratum pool.
