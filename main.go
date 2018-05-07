@@ -11,6 +11,7 @@ import(
     "github.com/bytom/testutil"
     "github.com/bytom/protocol/bc/types"
     "github.com/bytom/consensus/difficulty"
+    "github.com/bytom/consensus/"
 )
 
 
@@ -66,7 +67,7 @@ const (
 
 var (
     lastNonce  = ^uint64(0)
-    lastHeight = uint64(0)
+    lastHeight = "0"
 )
 
 func main() {
@@ -137,7 +138,7 @@ type BlockHeader struct {
 }
 */
 
-func mine(job t_job) uint64 {
+func mine(job t_job) bool {
     bh := &types.BlockHeader{
                 Version:            str2ui64Bg(job.Version),
                 Height:             str2ui64Bg(job.Height),
