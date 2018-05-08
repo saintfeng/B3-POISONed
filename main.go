@@ -7,15 +7,13 @@ import(
     "strconv"
     // "math/big"
     "encoding/json"
+    "time"
     
     "github.com/bytom/testutil"
     "github.com/bytom/protocol/bc/types"
-    "github.com/bytom/consensus/difficulty"
-    "github.com/bytom/consensus"
+    // "github.com/bytom/consensus/difficulty"
+    // "github.com/bytom/consensus"
 )
-
-
-
 
 type t_err struct {
     Code            uint64      `json:"code"`
@@ -54,12 +52,6 @@ const (
     poolAddr = "stratum-btm.antpool.com:6666" //39.107.125.245
     // poolAddr = "192.168.199.189:5555"
 
-    // poolAddr = "39.107.122.14:6666"
-    // poolAddr = "203.156.199.243:13022"
-    // poolAddr = "47.95.178.159:6666"
-    // poolAddr = "47.97.205.167:6666"
-    // poolAddr = "btm.uupool.cn:9220"
-    // poolAddr = "btm.uupool.cn:9330"
     flush = "\r\n\r\n"
     DEBUG = false
     esHR     = 80 //estimated Hashrate
@@ -67,18 +59,22 @@ const (
 
 var (
     lastNonce  = ^uint64(0)
-    lastHeight = "0"
+    // lastHeight = "-1"
+    Id = uint64(0)
 )
 
 func main() {
 start:
+    Id += 1
     conn, err := net.Dial("tcp", poolAddr)
     if err != nil {
         log.Fatalln(err)
     }
     defer conn.Close()
 
-    send_msg := `{"method": "login", "params": {"login": "haoyuyu.1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}`
+    send_msg := `{"method": "login", "params": {"login": "haoyuyu.1", "pass": "123", "agent": "bmminer/2.0.0"}, "id": `
+    send_msg += strconv.FormatUint(Id, 10)
+    send_msg += `}`
     // send_msg := `{"method": "login", "params": {"login": "bm1qcxg0w7c70tdd46t7dxn204mkyeyudcz063s49e", "pass": "123", "agent": "bmminer/2.0.0"}, "id": 1}`
     conn.Write([]byte(send_msg))
     conn.Write([]byte(flush))
@@ -97,29 +93,34 @@ start:
     // if lastHeight != resp.Result.Job.Height {
     //     lastNonce = str2ui64Bg(resp.Result.Job.Nonce)-1
     // }
-    lastNonce = str2ui64Bg(resp.Result.Job.Nonce)-1
-    lastHeight = resp.Result.Job.Height
-    if !mine(resp.Result.Job) {
-        goto start
-    }
+    // lastNonce = str2ui64Bg(resp.Result.Job.Nonce)-1
+    lastNonce = str2ui64Li(resp.Result.Job.Nonce)-1
+    // lastHeight = resp.Result.Job.Height
+    // if !mine(resp.Result.Job) {
+    //     goto start
+    // }
+    mine(resp.Result.Job)
     nonce := lastNonce
     nonceStr := strconv.FormatUint(nonce, 16)
-    nonceStr = strSwitchEndian(fmt.Sprintf("%016s", nonceStr))
+    // nonceStr = strSwitchEndian(fmt.Sprintf("%016s", nonceStr))
+    nonceStr = fmt.Sprintf("%016s", nonceStr)
     if DEBUG {
         log.Printf("sending back nonce as string: %s", nonceStr)
     }
 
-    send_msg = `{"method": "submit", "params": {"id": "antminer_1", "job_id": "`
+    send_msg = `{"method": "submit", "params": {"id": "haoyuyu.1", "job_id": "`
     send_msg += resp.Result.Job.JobId
     send_msg += `", "nonce": "`
     send_msg += nonceStr
-    send_msg += `"}, "id":1}`
+    send_msg += `"}, "id":`
+    send_msg += strconv.FormatUint(Id, 10)
+    send_msg += `}`
     conn.Write([]byte(send_msg))
     conn.Write([]byte(flush))
     log.Printf("Sent: %s", send_msg)
     buff = make([]byte, 1024)
     n, _ = conn.Read(buff)
-    log.Printf("Received: %s", buff[:n])
+    log.Printf("Received: %s\n", buff[:n])
     json.Unmarshal([]byte(buff[:n]), &resp)
     goto start
 }
@@ -155,24 +156,27 @@ func mine(job t_job) bool {
         view_parsing(bh, job)
     }
 
-    log.Printf("Mining at height:\t%d\n", bh.Height)
-    log.Printf("Start from nonce:\t0x%016x = %d\n", lastNonce+1, lastNonce+1)
+    lastNonce += 10000000
+    time.Sleep(3 * time.Second)
+    // log.Printf("Mining at height:\t%d\n", bh.Height)
+    // log.Printf("Start from nonce:\t0x%016x = %d\n", lastNonce+1, lastNonce+1)
     // for i := str2ui64Bg(job.Nonce); i <= maxNonce; i++ {
-    for i := uint64(lastNonce + 1); i <= uint64(lastNonce+consensus.TargetSecondsPerBlock*esHR) && i <= maxNonce; i++ {
+    // for i := uint64(lastNonce + 1); i <= uint64(lastNonce+consensus.TargetSecondsPerBlock*esHR) && i <= maxNonce; i++ {
         // log.Printf("Checking PoW with nonce: 0x%016x = %d\n", i, i)
-        bh.Nonce = i
-        headerHash := bh.Hash()
-        if DEBUG {
-            fmt.Println("headerHash:", headerHash.String())
-        }
+        // bh.Nonce = i
+        // headerHash := bh.Hash()
+        // if DEBUG {
+        //     fmt.Println("headerHash:", headerHash.String())
+        // }
 
-        seedHash := testutil.MustDecodeHash(job.Seed)
-        if difficulty.CheckProofOfWork(&headerHash, &seedHash, bh.Bits) {
-            log.Printf("Block mined! Proof hash: 0x%v\n", headerHash.String())
+        if true {
+        // seedHash := testutil.MustDecodeHash(job.Seed)
+        // if difficulty.CheckProofOfWork(&headerHash, &seedHash, bh.Bits) {
+            // log.Printf("Block mined! Proof hash: 0x%v\n", headerHash.String())
             return true
         }
-    }
-    log.Printf("Stop at nonce:\t0x%016x = %d\n", bh.Nonce, bh.Nonce)
+    // }
+    // log.Printf("Stop at nonce:\t0x%016x = %d\n", bh.Nonce, bh.Nonce)
     lastNonce = bh.Nonce
 
     return false
