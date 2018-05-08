@@ -34,6 +34,7 @@ func main() {
     //fmt.Println(targetHex)
     
     targetHex := "c5a70000"
+    targetHex = "ffff0f00"
     fmt.Println(targetHex)
     decoded, _ := hex.DecodeString(targetHex)
     fmt.Println(decoded)
