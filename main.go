@@ -57,7 +57,7 @@ type t_jobntf struct {
 const (
     maxNonce = ^uint64(0) // 2^64 - 1 = 18446744073709551615
     poolAddr = "stratum-btm.antpool.com:6666" //39.107.125.245
-    login = `haoyuyu.1`
+    login = `poisoned.1`
 
     flush = "\r\n\r\n"
     MOCK = false
@@ -79,7 +79,7 @@ func main() {
     }
     defer conn.Close()
 
-    send_msg := `{"method": "login", "params": {"login": " `
+    send_msg := `{"method": "login", "params": {"login": "`
     send_msg += login 
     send_msg += `", "pass": "123", "agent": "bmminer/2.0.0"}, "id": `
     send_msg += strconv.FormatUint(MsgId, 10) 
@@ -117,9 +117,8 @@ func main() {
                 mine(job, conn)
             }(jobntf.Params, conn)
         } else {
-            // log.Printf("Received: %s\n", buff[:n])
+            log.Printf("Received: %s\n", buff[:n])
         }
-
     }
 }
 
@@ -169,7 +168,8 @@ func mine(job t_job, conn net.Conn) bool {
 
     nonce := str2ui64Li(job.Nonce)
     log.Printf("Job %s: Start from nonce:\t0x%016x = %d\n", job.JobId, nonce, nonce)
-    for i := nonce; i <= nonce+consensus.TargetSecondsPerBlock*esHR && i <= maxNonce; i++ {
+    // for i := nonce; i <= nonce+consensus.TargetSecondsPerBlock*esHR && i <= maxNonce; i++ {
+    for i := nonce; i <= maxNonce; i++ {
         if job.JobId != newestJob {
             log.Printf("Job %s: Expired", job.JobId)
             return false
@@ -192,7 +192,9 @@ func mine(job t_job, conn net.Conn) bool {
                     log.Printf("Job %s: Sending back nonce as string: %s", job.JobId, nonceStr)
                 }
 
-                send_msg := `{"method": "submit", "params": {"id": "`+ login + `", "job_id": "`
+                send_msg := `{"method": "submit", "params": {"id": "`
+                send_msg += login 
+                send_msg += `", "job_id": "`
                 send_msg += job.JobId
                 send_msg += `", "nonce": "`
                 send_msg += nonceStr
