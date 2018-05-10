@@ -56,8 +56,8 @@ type t_jobntf struct {
 
 const (
     maxNonce = ^uint64(0) // 2^64 - 1 = 18446744073709551615
-    poolAddr = "btm.uupool.cn:9221" //39.107.125.245
-    login = `bm1q48dt8a0ej506a0uadlspnrgvjqu7jh3dwc2sve.1`
+    poolAddr = "stratum-btm.antpool.com:6666" //39.107.125.245
+    login = `poisoned.1`
 
     flush = "\r\n\r\n"
     MOCK = false
@@ -76,7 +76,8 @@ login:
     MsgId += 1
     conn, err := net.Dial("tcp", poolAddr)
     if err != nil {
-        log.Fatalln(err)
+        log.Println(err)
+        goto login
     }
     defer conn.Close()
 
