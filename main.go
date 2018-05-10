@@ -10,7 +10,7 @@ import(
     "math/big"
     "encoding/hex"
     
-    "github.com/bytom/testutil"
+    "github.com/bytom/protocol/bc"
     "github.com/bytom/protocol/bc/types"
     "github.com/bytom/consensus/difficulty"
     // "github.com/bytom/consensus"
@@ -27,7 +27,7 @@ type t_job struct {
     PreBlckHsh      string      `json:"previous_block_hash"`
     Timestamp       string      `json:"timestamp"`
     TxMkRt          string      `json:"transactions_merkle_root"`
-    TxStRt          string      `json:"transaction_status_hash"`
+    TxSt            string      `json:"transaction_status_hash"`
     Nonce           string      `json:"nonce"`
     Bits            string      `json:"bits"`
     JobId           string      `json:"job_id"`
@@ -94,7 +94,7 @@ login:
     log.Printf("----login job received----\n%s\n", buff[:n])
     var resp t_resp
     json.Unmarshal([]byte(buff[:n]), &resp)
-        
+    
     if DEBUG && MOCK {
         mock_input(&resp)
     }
@@ -108,6 +108,7 @@ login:
         buff = make([]byte, 1024)
         n, err = conn.Read(buff)
         if err != nil {
+            log.Println(err)
             break
         }
 
@@ -144,15 +145,23 @@ type BlockHeader struct {
 */
 
 func mine(job t_job, conn net.Conn) bool {
+    seedHash, err1 := DecodeHash(job.Seed)
+    PreBlckHsh, err2 := DecodeHash(job.PreBlckHsh)
+    TxMkRt, err3 := DecodeHash(job.TxMkRt)
+    TxSt, err4 := DecodeHash(job.TxSt)
+    if err1!=nil || err2!=nil || err3!=nil || err4!=nil {
+        return false
+    }
+
     bh := &types.BlockHeader{
                 Version:            str2ui64Bg(job.Version),
                 Height:             str2ui64Bg(job.Height),
-                PreviousBlockHash:  testutil.MustDecodeHash(job.PreBlckHsh),
+                PreviousBlockHash:  PreBlckHsh,
                 Timestamp:          str2ui64Bg(job.Timestamp),
                 Bits:               str2ui64Bg(job.Bits),
                 BlockCommitment:    types.BlockCommitment{
-                                        TransactionsMerkleRoot: testutil.MustDecodeHash(job.TxMkRt),
-                                        TransactionStatusHash:  testutil.MustDecodeHash(job.TxStRt),
+                                        TransactionsMerkleRoot: TxMkRt,
+                                        TransactionStatusHash:  TxSt,
                                     },
     }
     if DEBUG {
@@ -160,7 +169,6 @@ func mine(job t_job, conn net.Conn) bool {
     }
 
     log.Printf("Job %s: Mining at height: %d\n", job.JobId, bh.Height)
-    seedHash := testutil.MustDecodeHash(job.Seed)
     padded := make([]byte, 32)
     targetHex := job.Target
     decoded, _ := hex.DecodeString(targetHex)
@@ -296,4 +304,9 @@ func reverse(src []byte) []byte {
         dst[len(src)-i] = src[i-1]
     }
     return dst
+}
+
+func DecodeHash(s string) (h bc.Hash, err error) {
+    err = h.UnmarshalText([]byte(s))
+    return h, err
 }
