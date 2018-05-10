@@ -56,8 +56,8 @@ type t_jobntf struct {
 
 const (
     maxNonce = ^uint64(0) // 2^64 - 1 = 18446744073709551615
-    poolAddr = "stratum-btm.antpool.com:6666" //39.107.125.245
-    login = `poisoned.1`
+    poolAddr = "btm.uupool.cn:9221" //39.107.125.245
+    login = `bm1q48dt8a0ej506a0uadlspnrgvjqu7jh3dwc2sve.1`
 
     flush = "\r\n\r\n"
     MOCK = false
@@ -72,6 +72,7 @@ var (
 )
 
 func main() {
+login:
     MsgId += 1
     conn, err := net.Dial("tcp", poolAddr)
     if err != nil {
@@ -93,7 +94,6 @@ func main() {
     log.Printf("----login job received----\n%s\n", buff[:n])
     var resp t_resp
     json.Unmarshal([]byte(buff[:n]), &resp)
-
         
     if DEBUG && MOCK {
         mock_input(&resp)
@@ -106,7 +106,11 @@ func main() {
     
     for true {
         buff = make([]byte, 1024)
-        n, _ = conn.Read(buff)
+        n, err = conn.Read(buff)
+        if err != nil {
+            break
+        }
+
         var jobntf t_jobntf
         json.Unmarshal([]byte(buff[:n]), &jobntf)
         
@@ -120,6 +124,8 @@ func main() {
             log.Printf("Received: %s\n", buff[:n])
         }
     }
+    MsgId = uint64(0)
+    goto login
 }
 
 /*
