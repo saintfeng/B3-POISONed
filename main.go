@@ -6,7 +6,7 @@ import(
     "fmt"
     "strconv"
     "encoding/json"
-    // "time"
+    "time"
     "math/big"
     "encoding/hex"
     
@@ -56,8 +56,11 @@ type t_jobntf struct {
 
 const (
     maxNonce = ^uint64(0) // 2^64 - 1 = 18446744073709551615
-    poolAddr = "stratum-btm.antpool.com:6666" //39.107.125.245
-    login = `poisoned.1`
+    //poolAddr = "stratum-btm.antpool.com:6666" //39.107.125.245
+    poolAddr = "btm.matpool.io:8118" //39.107.125.245
+    //poolAddr = "52.83.158.112:8118" //39.107.125.245
+    login = `Null.1`
+    //login = `poisoned.1`
 
     flush = "\r\n\r\n"
     MOCK = false
@@ -177,18 +180,19 @@ func mine(job t_job, conn net.Conn) bool {
     decoded = reverse(decoded)
     copy(padded[:len(decoded)], decoded)
     newDiff := new(big.Int).SetBytes(padded)
-    newDiff = new(big.Int).Div(Diff1, newDiff)
     log.Printf("Job %s: Old target: %v\n", job.JobId, difficulty.CompactToBig(bh.Bits))
-    newDiff = new(big.Int).Mul(difficulty.CompactToBig(bh.Bits), newDiff)
     log.Printf("Job %s: New target: %v\n", job.JobId, newDiff)
 
     nonce := str2ui64Li(job.Nonce)
     log.Printf("Job %s: Start from nonce:\t0x%016x = %d\n", job.JobId, nonce, nonce)
+    start := time.Now()
+
     // for i := nonce; i <= nonce+consensus.TargetSecondsPerBlock*esHR && i <= maxNonce; i++ {
     for i := nonce; i <= maxNonce; i++ {
         if job.JobId != newestJob {
             log.Printf("Job %s: Expired", job.JobId)
-            return false
+            break
+		//return false
         } else {
             // log.Printf("Checking PoW with nonce: 0x%016x = %d\n", i, i)
             bh.Nonce = i
@@ -225,6 +229,12 @@ func mine(job t_job, conn net.Conn) bool {
             }        
         }
     }
+
+    end := time.Now()
+    delta := end.Sub(start).Seconds()
+    log.Printf("Job %s: Stop at nonce: 0x%016x = %d, %d hash in %g second, hashrate = %g hash/s \n",
+      job.JobId, bh.Nonce, bh.Nonce, bh.Nonce - nonce, delta, float32(bh.Nonce - nonce) / float32(delta) )
+
     log.Printf("Job %s: Stop at nonce:\t\t0x%016x = %d\n", job.JobId, bh.Nonce, bh.Nonce)
     return false
 }
